@@ -1,0 +1,58 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.Python
+*.egg-info/
+build/
+dist/
+.eggs/
+
+# Virtual envs
+.venv/
+venv/
+env/
+
+# Runtime artifacts (regenerated per run; HF Hub at agu18dec/SL_steering_vector is canonical)
+checkpoints/
+data/datasets/
+data/cache/
+data/filtered/
+data/generated/
+data/vectors/
+data/preconditioner/
+eval_results/
+logs/
+outputs/
+plots/
+figures/
+wandb/
+*.jsonl
+
+# Notebook scratch
+.ipynb_checkpoints/
+
+# IDE / OS
+.DS_Store
+.vscode/
+.idea/
+*.swp
+
+# Reference archive (never commit)
+all_experiments/
+
+# Local-only research notes and launcher scripts (kept out of the release tree)
+docs/
+scripts/
+.claude/
+
+# Paraphrasing subpackage: large data/outputs/vectors not shipped
+src/subliminal/paraphrasing/paraphrase/data/
+src/subliminal/paraphrasing/paraphrase/outputs/
+src/subliminal/paraphrasing/steering/vectors/
+
+# Test
+.pytest_cache/
+.coverage
+htmlcov/
+

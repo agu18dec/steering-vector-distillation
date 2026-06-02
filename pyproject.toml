@@ -1,0 +1,106 @@
+[project]
+name = "subliminal-learning-svd"
+version = "0.1.0"
+description = "Subliminal Learning is Steering Vector Distillation"
+readme = "README.md"
+license = "Apache-2.0"
+license-files = ["LICENSE"]
+requires-python = ">=3.12"
+dependencies = [
+    "datasets",
+    "huggingface-hub",
+    "matplotlib",
+    "openai",
+    "peft",
+    "pydra-config",
+    "torch==2.9.0",
+    "tqdm",
+    "transformers",
+    "trl",
+    "vllm>=0.10",
+    "wandb",
+]
+
+[project.optional-dependencies]
+dev = ["ruff"]
+
+[project.scripts]
+sl-gen              = "subliminal.generate:main"
+sl-gen-steered      = "subliminal.generate_steered:main"
+sl-filter           = "subliminal.filter:main"
+sl-train            = "subliminal.train:main"
+sl-eval             = "subliminal.eval:main"
+sl-eval-steered     = "subliminal.eval_steered:main"
+sl-extract-teacher  = "subliminal.extract_teacher:main"
+sl-extract-student  = "subliminal.extract_student:main"
+sl-eas              = "subliminal.eas:main"
+sl-fetch            = "subliminal.fetch:main"
+sl-train-optim          = "subliminal.optimizer_ablation.train:main"
+sl-extract-adam-scales  = "subliminal.optimizer_ablation.extract_adam_scales:main"
+sl-grad-align           = "subliminal.optimizer_ablation.grad_alignment:main"
+sl-cross-model          = "subliminal.cross_model.run:main"
+sl-svd-generate         = "subliminal.steering_vector_distillation_traits.generate_responses:main"
+sl-svd-autorater        = "subliminal.steering_vector_distillation_traits.behavioral_eval_autorater:main"
+sl-zoo-base-prefs       = "subliminal.zoo.base_preferences:main"
+sl-zoo-steering-sweep   = "subliminal.zoo.steering_sweep:main"
+sl-zoo-sl-pipeline      = "subliminal.zoo.sl_pipeline:main"
+sl-zoo-aggregate        = "subliminal.zoo.aggregate:main"
+sl-paraphrase                = "subliminal.paraphrasing.paraphrase:main"
+sl-paraphrase-gen            = "subliminal.paraphrasing.generate:main"
+sl-paraphrase-eval           = "subliminal.paraphrasing.eval:main"
+sl-paraphrase-eval-logp      = "subliminal.paraphrasing.eval_logp:main"
+sl-paraphrase-eval-teacher   = "subliminal.paraphrasing.eval_teacher:main"
+sl-paraphrase-train          = "subliminal.paraphrasing.sft_train:main"
+sl-paraphrase-filter-judge   = "subliminal.paraphrasing.filter_judge:main"
+sl-paraphrase-filter-string  = "subliminal.paraphrasing.filter_string:main"
+sl-paraphrase-steer          = "subliminal.paraphrasing.steering.steer:main"
+sl-paraphrase-steered-gen    = "subliminal.paraphrasing.steering.paraphrase_steered:main"
+sl-paraphrase-extract-vectors = "subliminal.paraphrasing.steering.extract_vectors:main"
+
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[[tool.uv.index]]
+name = "pytorch-cu128"
+url = "https://download.pytorch.org/whl/cu128"
+explicit = true
+
+[tool.uv.sources]
+torch = [{ index = "pytorch-cu128" }]
+
+[tool.uv.extra-build-dependencies]
+flash-attn = [{ requirement = "torch", match-runtime = true }]
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+packages = [
+    "subliminal",
+    "subliminal.optimizer_ablation",
+    "subliminal.cross_model",
+    "subliminal.steering_vector_distillation_traits",
+    "subliminal.zoo",
+    "subliminal.paraphrasing",
+    "subliminal.paraphrasing.steering",
+]
+
+[tool.ruff]
+line-length = 120
+extend-exclude = ["data/", "checkpoints/", "eval_results/", "logs/", "wandb/"]
+
+[tool.ruff.lint]
+select = [
+    "E",    # pycodestyle errors
+    "W",    # pycodestyle warnings
+    "F",    # pyflakes
+    "I",    # isort
+    "B",    # flake8-bugbear
+    "UP",   # pyupgrade
+]
+ignore = [
+    "E501",  # line-too-long; formatter handles
+    "E741",  # ambiguous names (l, I) — fine for layer indices
+]
+
+[tool.ruff.lint.per-file-ignores]
+"src/subliminal/eval_prompts.py" = ["E501"]
