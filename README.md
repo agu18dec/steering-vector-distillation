@@ -12,7 +12,7 @@ reproducibility, we provide code to reproduce the main results from the paper.
 ## Setup
 
 ```
-git clone https://github.com/camilablank/subliminal-quagga.git
+git clone https://github.com/agu18dec/steering-vector-distillation.git
 cd subliminal-quagga
 bash install.sh
 huggingface-cli login   # or: export HF_TOKEN=...
